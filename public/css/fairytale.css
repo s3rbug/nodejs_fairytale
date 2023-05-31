@@ -1,0 +1,26 @@
+#edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-items: left;
+  width: fit-content;
+}
+
+#edit-form div label {
+  display: inline-block;
+  width: 100px;
+}
+
+#delete-button {
+  background: red;
+  color: white;
+  border: 1px solid gray;
+  cursor: pointer;
+  height: 30px;
+  width: 90px;
+  font-weight: bold;
+}
+
+#link {
+  text-decoration: none;
+}
