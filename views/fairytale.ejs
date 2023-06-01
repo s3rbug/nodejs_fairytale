@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Fairytale</title>
-  <link href="/public/css/fairytale.css" rel="stylesheet" type="text/css">
+  <link href="/public/css/styles.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
   <h2>
-    <b><a href="/fairytales" id="back-link">Back to main page</a></b>
+    <b><a href="/fairytales" class="link">Back to fairytales list</a></b>
   </h2>
   <h1>
     <b>Fairytale:</b>
@@ -27,7 +27,7 @@
   </p>
 
   <h2>Edit Fairytale</h2>
-  <form id="edit-form" action="/fairytales/<%= fairytale.id %>?_method=PUT" method="POST" enctype="application/x-www-form-urlencoded">
+  <form class="form" action="/fairytales/<%= fairytale.id %>?_method=PUT" method="POST" enctype="application/x-www-form-urlencoded">
     <label for="title">Title:</label>
     <input type="text" id="title" name="title" value="<%= fairytale.title %>" required>
 
@@ -39,7 +39,7 @@
 
   <h2>Delete Fairytale</h2>
   <form action="/fairytales/<%= fairytale.id %>?_method=DELETE" method="POST">
-    <button type="submit" id="delete-button">Delete</button>
+    <button type="submit" class="delete-button">Delete</button>
   </form>
 </body>
 

@@ -1,4 +1,4 @@
-#edit-form {
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -6,12 +6,7 @@
   width: fit-content;
 }
 
-#edit-form div label {
-  display: inline-block;
-  width: 100px;
-}
-
-#delete-button {
+.delete-button {
   background: red;
   color: white;
   border: 1px solid gray;
@@ -19,8 +14,11 @@
   height: 30px;
   width: 90px;
   font-weight: bold;
+  font-size: 1.2em;
+  border-radius: 20px;
 }
 
-#link {
+.link {
   text-decoration: none;
+  font-size: 1.1em;
 }
