@@ -1,14 +1,13 @@
-import express from "express";
-import mongoose from "mongoose";
+import express from "express";import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import methodOverride from "method-override";
-import { Fairytale } from "./entities/Fairytale";
-import { Book } from "./entities/Book";
-import 'dotenv/config'
+import "dotenv/config";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import fairytalesRouter from "./fairytales.router";
+import booksRouter from "./books.router";
 
-// dotenv.config({ path: __dirname + '/.env' })
-
-const PORT = 3003;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.set("view engine", "ejs");
@@ -17,37 +16,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use("/public", express.static("public"));
 
-mongoose.connect(process.env.MONGO_URI as string)
+const swaggerOptions = {
+	definition: {
+		openapi: "3.0.0",
+		info: {
+			title: "Fairytales API",
+			description: "API documentation for fairytales website",
+			version: "1.0.0",
+		},
+		servers: [
+			{
+				url: `http://localhost:${PORT}/books`,
+			},
+		],
+	},
+	apis: ["src/books.router.ts", "src/fairytales.router.ts"],
+};
 
-// Отримати список всіх казок та фільтрувати за query параметрами
-app.get("/fairytales", Fairytale.getAllFairytales);
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Отримати окрему казку за ідентифікатором
-app.get("/fairytales/:id", Fairytale.getFairytaleById);
+mongoose.connect(process.env.MONGO_URI as string);
 
-// Створити нову казку
-app.post("/fairytales", Fairytale.createFairytale);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Видалити казку за ідентифікатором
-app.delete("/fairytales/:id", Fairytale.deleteFairytale);
-
-// Оновити казку за ідентифікатором
-app.put("/fairytales/:id", Fairytale.updateFairytale);
-
-// GET метод для отримання списку всіх книг та пагінації
-app.get("/books", Book.getAllBooks);
-
-// GET метод для отримання окремої книги за ідентифікатором
-app.get("/books/:id", Book.getBookById);
-
-// POST метод для створення нової книги
-app.post("/books", Book.createBook);
-
-// DELETE метод для видалення книги за ідентифікатором
-app.delete("/books/:id", Book.deleteBook);
-
-// PUT метод для оновлення книги за ідентифікатором
-app.put("/books/:id", Book.updateBook);
+app.use("/fairytales", fairytalesRouter);
+app.use("/books", booksRouter);
 
 // Запуск сервера
 app.listen(PORT, () => {
